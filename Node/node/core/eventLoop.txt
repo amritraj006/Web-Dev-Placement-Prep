@@ -1,0 +1,246 @@
+Node.js Event Loop Notes (Very Simple)
+
+This is one of the most important Node.js interview topics.
+
+Main Parts:
+1. Call Stack
+2. Callback Queue
+3. Event Loop
+4. Microtask Queue
+5. Macrotask Queue
+
+
+1. Call Stack
+
+Meaning:
+The Call Stack is the place where JavaScript executes functions one by one.
+
+Example:
+
+function one() {
+  console.log("One");
+}
+
+function two() {
+  console.log("Two");
+}
+
+one();
+two();
+
+Output:
+One
+Two
+
+How it works:
+- one() goes into the stack
+- prints "One"
+- one() is removed
+- two() goes into the stack
+- prints "Two"
+- two() is removed
+
+Think of the Call Stack as a single worker doing one task at a time.
+
+
+2. Callback Queue
+
+Meaning:
+When an asynchronous task finishes, its callback is placed in the Callback Queue.
+
+Example:
+
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Timeout");
+}, 1000);
+
+console.log("End");
+
+Output:
+Start
+End
+Timeout
+
+Explanation:
+- "Start" prints
+- setTimeout starts a timer
+- "End" prints
+- after 1 second, the callback goes into the Callback Queue
+- it will run only when the Call Stack is empty
+
+
+3. Event Loop
+
+Meaning:
+The Event Loop is the manager of Node.js.
+
+It keeps checking:
+- Is the Call Stack empty?
+- Is there anything waiting in the queues?
+
+If the stack is empty, it moves tasks from the queues to the Call Stack.
+
+Simple Flow:
+
+Call Stack -> Event Loop -> Queues
+
+
+4. Microtask Queue
+
+Meaning:
+Microtasks have higher priority than macrotasks.
+
+Microtasks are created by:
+- Promise.then()
+- Promise.catch()
+- Promise.finally()
+- queueMicrotask()
+
+Example:
+
+console.log("Start");
+
+Promise.resolve().then(() => {
+  console.log("Promise");
+});
+
+console.log("End");
+
+Output:
+Start
+End
+Promise
+
+Explanation:
+- "Start" prints
+- Promise callback goes to Microtask Queue
+- "End" prints
+- Event Loop runs the Microtask
+- "Promise" prints
+
+
+5. Macrotask Queue
+
+Meaning:
+Macrotasks are normal asynchronous tasks.
+
+Macrotasks are created by:
+- setTimeout()
+- setInterval()
+- setImmediate()
+- I/O callbacks (file, network, database)
+
+Example:
+
+setTimeout(() => {
+  console.log("Timer");
+}, 0);
+
+The callback is stored in the Macrotask Queue.
+
+
+Microtask vs Macrotask
+
+Example:
+
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Timer");
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log("Promise");
+});
+
+console.log("End");
+
+Output:
+Start
+End
+Promise
+Timer
+
+Why?
+
+Synchronous code:
+- Start
+- End
+
+Microtask Queue:
+- Promise
+
+Macrotask Queue:
+- Timer
+
+Event Loop runs:
+1. All Microtasks
+2. One Macrotask
+
+
+Most Important Interview Example
+
+console.log("1");
+
+setTimeout(() => {
+  console.log("2");
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log("3");
+});
+
+console.log("4");
+
+Output:
+1
+4
+3
+2
+
+Step-by-step:
+
+1. Print 1
+2. setTimeout -> Macrotask Queue
+3. Promise -> Microtask Queue
+4. Print 4
+5. Call Stack becomes empty
+6. Run Microtask -> 3
+7. Run Macrotask -> 2
+
+
+Easy Trick to Remember
+
+Execution Order:
+
+Synchronous Code
+        ↓
+Microtask Queue
+        ↓
+Macrotask Queue
+
+Example:
+
+console.log("A");
+
+setTimeout(() => console.log("B"), 0);
+
+Promise.resolve().then(() => console.log("C"));
+
+console.log("D");
+
+Output:
+A
+D
+C
+B
+
+Remember:
+Synchronous -> Microtask -> Macrotask
+
+
+30-Second Interview Answer
+
+The Call Stack executes JavaScript code. Asynchronous operations do not run immediately. Promise callbacks are stored in the Microtask Queue, while setTimeout and other timer or I/O callbacks are stored in the Macrotask Queue. The Event Loop continuously checks whether the Call Stack is empty. When it becomes empty, it executes all Microtasks first and then Macrotasks. That is why Promises run before setTimeout callbacks.

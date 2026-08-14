@@ -1,0 +1,14 @@
+process.exit() is a Node.js method that immediately stops the current Node.js program.
+console.log("Start");
+
+process.exit();
+
+console.log("End");
+
+output: Start
+End is never printed because process.exit() terminates the program immediately.
+
+process.exit(code);
+0 -> Program finished successfully
+1 -> Program ended with an error
+

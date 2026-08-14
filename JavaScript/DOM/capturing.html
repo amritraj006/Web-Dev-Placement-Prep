@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Capturing</title>
+</head>
+<body>
+    <div id="main" style="width:200px; height:200px; background:red; display:flex; justify-content:center; align-items:center;">
+        <button id="btn">Click</button>
+    </div>
+
+    <script>
+        const main = document.querySelector("#main");
+        const btn = document.querySelector("#btn");
+
+        // Parent listener in capturing phase
+main.addEventListener("click", () => {
+    console.log("Main clicked");
+});
+
+btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    console.log("Button clicked");
+});
+    </script>
+</body>
+</html>

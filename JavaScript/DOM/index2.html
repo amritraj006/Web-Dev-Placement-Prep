@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="bhjbj" alt="Hii">
+
+    <a href=""></a>
+
+    <script>
+        const img = document.querySelector("img");
+        console.log(img.getAttribute('src'));
+
+        img.src = "https://www.lpu.in/authenticate/lpu%20logo.png";
+        img.height = "200"
+        img.width = "200"
+        console.log(img.getAttribute('src'));
+
+
+        img.onclick = () => {
+            window.location.href = "https://www.google.com/";
+        }
+
+        document.querySelector("a").textContent = "CLICK";
+        document.querySelector("a").href = "https://www.google.com/";
+        document.querySelector("a").target = "_blank";
+
+        
+    </script>
+</body>
+</html>
+
+<!-- img is self closing tag thats why we cant add innerHtml inside it -->

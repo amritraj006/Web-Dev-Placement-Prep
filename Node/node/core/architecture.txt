@@ -1,0 +1,21 @@
+Node js is a single threaded , event driven and non blocking architechture.
+
+Call Stack -> The call stack always contains the code which is currently running.
+Event Queue(Callback Queue) -> The event loop is the manager.
+If any callback is waiting in the callback queue then it move the callback from queue to stack.
+
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Done");
+}, 1000);
+
+console.log("End");
+
+Steps:
+Start prints.
+Timer starts.
+End prints.
+After 1 second, callback enters queue.
+Event loop moves it to the stack.
+Done prints.
