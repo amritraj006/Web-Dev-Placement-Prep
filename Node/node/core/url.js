@@ -3,10 +3,10 @@ const {URL} = require('url')
 const url = new URL("https://example.com:8080/products?id=10&name=phone")
 
 console.log(url.searchParams.get("id"));
-const hostname = url.hostname;
-const port = url.port;
-const protocol = url.protocol;
-const pathname = url.pathname;
+const hostname = url.hostname; //example.com
+const port = url.port;//8080
+const protocol = url.protocol;//http
+const pathname = url.pathname;//products
 console.log(protocol);
 // url.searchParams.delete("id");
 
